@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: @activeProfile@
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:chat
+    username: sa
+    password: password
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: chat-service
+security:
+  token:
+    secret-key: owefcmsd983hsdjhd2hdskadh29

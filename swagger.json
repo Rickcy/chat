@@ -1,0 +1,234 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Demo Chat Api Documentation"
+  },
+  "tags": [
+    {
+      "name": "auth-controller",
+      "description": "Для аунтентификации и обновления токена"
+    },
+    {
+      "name": "chat-controller",
+      "description": "Для отправки и получения истории сообщений"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "login",
+        "operationId": "loginUsingPOST",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "authData",
+            "description": "authData",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response«Token»"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/renew": {
+      "get": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "renewToken",
+        "operationId": "renewTokenUsingGET",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response«Token»"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/chat/history/{count}": {
+      "get": {
+        "tags": [
+          "chat-controller"
+        ],
+        "summary": "getHistory",
+        "operationId": "getHistoryUsingGET",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "path",
+            "description": "count",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response«List«MessageDto»»"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/chat/message": {
+      "post": {
+        "tags": [
+          "chat-controller"
+        ],
+        "summary": "sendMessage",
+        "operationId": "sendMessageUsingPOST",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "text",
+            "description": "text",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response«MessageDto»"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "AuthData": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "AuthData"
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "title": "Error"
+    },
+    "MessageDto": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "title": "MessageDto"
+    },
+    "Payload": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "Payload"
+    },
+    "Response«List«MessageDto»»": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageDto"
+          }
+        },
+        "error": {
+          "$ref": "#/definitions/Error"
+        }
+      },
+      "title": "Response«List«MessageDto»»"
+    },
+    "Response«MessageDto»": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/MessageDto"
+        },
+        "error": {
+          "$ref": "#/definitions/Error"
+        }
+      },
+      "title": "Response«MessageDto»"
+    },
+    "Response«Token»": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/Token"
+        },
+        "error": {
+          "$ref": "#/definitions/Error"
+        }
+      },
+      "title": "Response«Token»"
+    },
+    "Token": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/definitions/Payload"
+        },
+        "refresh_token": {
+          "type": "string"
+        }
+      },
+      "title": "Token"
+    }
+  }
+}
